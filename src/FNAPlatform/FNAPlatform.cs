@@ -20,7 +20,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Microsoft.Xna.Framework
 {
-	internal static class FNAPlatform
+	public static class FNAPlatform
 	{
 		#region Static Constructor
 
@@ -169,6 +169,26 @@ namespace Microsoft.Xna.Framework
 				SupportsOrientationChanges =	SDL3_FNAPlatform.SupportsOrientationChanges;
 				NeedsPlatformMainLoop = 	SDL3_FNAPlatform.NeedsPlatformMainLoop;
 				RunPlatformMainLoop =		SDL3_FNAPlatform.RunPlatformMainLoop;
+
+				OpenURL = SDL3_FNAPlatform.OpenURL;
+				HasClipboardText = SDL3_FNAPlatform.HasClipboardText;
+				GetClipboardText = SDL3_FNAPlatform.GetClipboardText;
+				SetClipboardText = SDL3_FNAPlatform.SetClipboardText;
+
+				SetWindowBordered = SDL3_FNAPlatform.SetWindowBordered;
+				SetWindowPosition = SDL3_FNAPlatform.SetWindowPosition;
+				GetWindowFlags = SDL3_FNAPlatform.GetWindowFlags;
+				RaiseWindow = SDL3_FNAPlatform.RaiseWindow;
+				MaximizeWindow = SDL3_FNAPlatform.MaximizeWindow;
+				RestoreWindow = SDL3_FNAPlatform.RestoreWindow;
+				SetWindowSize = SDL3_FNAPlatform.SetWindowSize;
+				GetWindowPosition = SDL3_FNAPlatform.GetWindowPosition;
+				SetWindowInputFocus = SDL3_FNAPlatform.SetWindowInputFocus;
+
+				GameControllerNameForIndex = SDL3_FNAPlatform.GameControllerNameForIndex;
+				GameControllerTypeForIndex = SDL3_FNAPlatform.GameControllerTypeForIndex;
+
+
 			}
 			else
 			{
@@ -226,6 +246,25 @@ namespace Microsoft.Xna.Framework
 				SupportsOrientationChanges =	SDL2_FNAPlatform.SupportsOrientationChanges;
 				NeedsPlatformMainLoop = 	SDL2_FNAPlatform.NeedsPlatformMainLoop;
 				RunPlatformMainLoop =		SDL2_FNAPlatform.RunPlatformMainLoop;
+
+
+				OpenURL = SDL2_FNAPlatform.OpenURL;
+				HasClipboardText = SDL2_FNAPlatform.HasClipboardText;
+				GetClipboardText = SDL2_FNAPlatform.GetClipboardText;
+				SetClipboardText = SDL2_FNAPlatform.SetClipboardText;
+
+				SetWindowBordered = SDL2_FNAPlatform.SetWindowBordered;
+				SetWindowPosition = SDL2_FNAPlatform.SetWindowPosition;
+				GetWindowFlags = SDL2_FNAPlatform.GetWindowFlags;
+				RaiseWindow = SDL2_FNAPlatform.RaiseWindow;
+				MaximizeWindow = SDL2_FNAPlatform.MaximizeWindow;
+				RestoreWindow = SDL2_FNAPlatform.RestoreWindow;
+				SetWindowSize = SDL2_FNAPlatform.SetWindowSize;
+				GetWindowPosition = SDL2_FNAPlatform.GetWindowPosition;
+				SetWindowInputFocus = SDL2_FNAPlatform.SetWindowInputFocus;
+
+				GameControllerNameForIndex = SDL2_FNAPlatform.GameControllerNameForIndex;
+				GameControllerTypeForIndex = SDL2_FNAPlatform.GameControllerTypeForIndex;
 			}
 
 			FNALoggerEXT.Initialize();
@@ -276,7 +315,6 @@ namespace Microsoft.Xna.Framework
 			{ Keys.Delete,	5 }
 			// Ctrl+V is special!
 		};
-
 		#endregion
 
 		#region Public Static Methods
@@ -423,9 +461,6 @@ namespace Microsoft.Xna.Framework
 		public delegate string GetGamePadGUIDFunc(int index);
 		public static readonly GetGamePadGUIDFunc GetGamePadGUID;
 
-		public delegate string GetGameControllerNameFunc(int index);
-		public static readonly GetGameControllerNameFunc GetGameControllerName;
-
 		public delegate void SetGamePadLightBarFunc(int index, Color color);
 		public static readonly SetGamePadLightBarFunc SetGamePadLightBar;
 
@@ -487,7 +522,68 @@ namespace Microsoft.Xna.Framework
 
 		public delegate void RunPlatformMainLoopFunc(Game game);
 		public static readonly RunPlatformMainLoopFunc RunPlatformMainLoop;
+		#endregion
+
+		#region Public Static Methods From Dan
+		public delegate string GetGameControllerNameFunc(int index);
+		public static readonly GetGameControllerNameFunc GetGameControllerName;
+		// URL / clipboard
+		public delegate bool OpenURLFunc(string url);
+		public static readonly OpenURLFunc OpenURL;
+
+		public delegate bool HasClipboardTextFunc();
+		public static readonly HasClipboardTextFunc HasClipboardText;
+
+		public delegate string GetClipboardTextFunc();
+		public static readonly GetClipboardTextFunc GetClipboardText;
+
+		public delegate bool SetClipboardTextFunc(string text);
+		public static readonly SetClipboardTextFunc SetClipboardText;
+
+		// Window helpers
+		public delegate void SetWindowBorderedFunc(IntPtr window, bool bordered);
+		public static readonly SetWindowBorderedFunc SetWindowBordered;
+
+		public delegate void SetWindowPositionFunc(IntPtr window, int x, int y);
+		public static readonly SetWindowPositionFunc SetWindowPosition;
+
+		public delegate ulong GetWindowFlagsFunc(IntPtr window);
+		public static readonly GetWindowFlagsFunc GetWindowFlags;
+
+		public delegate int GetWindowDisplayIndexFunc(IntPtr window);
+		public static readonly GetWindowDisplayIndexFunc GetWindowDisplayIndex;
+
+		public delegate void RaiseWindowFunc(IntPtr window);
+		public static readonly RaiseWindowFunc RaiseWindow;
+
+		public delegate void MaximizeWindowFunc(IntPtr window);
+		public static readonly MaximizeWindowFunc MaximizeWindow;
+
+		public delegate void RestoreWindowFunc(IntPtr window);
+		public static readonly RestoreWindowFunc RestoreWindow;
+
+
+		public delegate void SetWindowSizeFunc(IntPtr window, int w, int h);
+		public static readonly SetWindowSizeFunc SetWindowSize;
+
+		public delegate void GetWindowPositionFunc(IntPtr window, out int x, out int y);
+		public static readonly GetWindowPositionFunc GetWindowPosition;
+
+		public delegate int SetWindowInputFocusFunc(IntPtr window);
+		public static readonly SetWindowInputFocusFunc SetWindowInputFocus;
+
+
+
+		// Controller metadata (keep your existing "ForIndex" game-side API)
+		public delegate string GameControllerNameForIndexFunc(int deviceIndex);
+		public static readonly GameControllerNameForIndexFunc GameControllerNameForIndex;
+
+		public delegate int GameControllerTypeForIndexFunc(int deviceIndex);
+		public static readonly GameControllerTypeForIndexFunc GameControllerTypeForIndex;
+
 
 		#endregion
+
+
 	}
 }

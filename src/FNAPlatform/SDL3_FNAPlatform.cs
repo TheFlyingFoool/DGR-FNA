@@ -20,6 +20,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System.Runtime.Remoting.Messaging;
 #endregion
 
 namespace Microsoft.Xna.Framework
@@ -2243,7 +2244,102 @@ namespace Microsoft.Xna.Framework
 			}
 			return result;
 		}
+		internal static bool OpenURL(string url)
+		{
+			return SDL.SDL_OpenURL(url);
+		}
+		internal static bool HasClipboardText()
+		{
+			return SDL.SDL_HasClipboardText();
+		}
 
+		internal static string GetClipboardText()
+		{
+			return SDL.SDL_GetClipboardText();
+		}
+		internal static bool SetClipboardText(string text)
+		{
+			return SDL.SDL_SetClipboardText(text);
+		}
+
+		internal static void SetWindowBordered(IntPtr window, bool bordered)
+		{ 
+			SDL.SDL_SetWindowBordered(window, bordered);
+		}
+
+		internal static void SetWindowPosition(IntPtr window, int x, int y)
+		{ 
+			SDL.SDL_SetWindowPosition(window, x, y);
+		}
+
+		internal static ulong GetWindowFlags(IntPtr window)
+		{
+			return (ulong)SDL.SDL_GetWindowFlags(window);
+		}
+
+	
+		internal static void RaiseWindow(IntPtr window)
+		{
+			SDL.SDL_RaiseWindow(window);
+		}
+		internal static void MaximizeWindow(IntPtr window)
+		{
+			SDL.SDL_MaximizeWindow(window);
+		}
+		internal static void RestoreWindow(IntPtr window)
+		{
+			SDL.SDL_RestoreWindow(window);
+		}
+		internal static void SetWindowSize(IntPtr window, int w, int h)
+		{
+			SDL.SDL_SetWindowSize(window, w, h);
+		}
+		internal static void GetWindowPosition(IntPtr window, out int x, out int y)
+		{
+			SDL.SDL_GetWindowPosition(window, out x, out y);
+		}
+		internal static int SetWindowInputFocus(IntPtr window)
+		{
+			SDL.SDL_RaiseWindow(window); // SetWindowInputFocus doesnt exist in SDL3
+			return 0;
+		}
+
+		internal static string GameControllerNameForIndex(int deviceIndex)
+		{
+			if (!TryGetGamepadIdByIndex(deviceIndex, out uint id))
+				return null;
+
+			return SDL.SDL_GetGamepadNameForID(id);
+		}
+
+		internal static int GameControllerTypeForIndex(int deviceIndex)
+		{
+			if (!TryGetGamepadIdByIndex(deviceIndex, out uint id))
+				return 0; // Unknown
+			return (int)SDL.SDL_GetGamepadTypeForID(id);
+		}
+
+		private static bool TryGetGamepadIdByIndex(int index, out uint id)
+		{
+			id = 0;
+			if (index < 0) return false;
+
+			// SDL3: returns pointer to array + count; must free
+			IntPtr p = SDL.SDL_GetGamepads(out int count);
+			if (p == IntPtr.Zero || count <= 0 || index >= count)
+				return false;
+
+			try
+			{
+				// Read the Nth SDL_JoystickID (commonly 32-bit int)
+				id = unchecked((uint) Marshal.ReadInt32(p, index * sizeof(int)));
+				return id != 0;
+			}
+			finally
+			{
+				SDL.SDL_free(p);
+			}
+		}
 		#endregion
 
 		#region Touch Methods

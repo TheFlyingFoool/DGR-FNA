@@ -2384,6 +2384,74 @@ namespace Microsoft.Xna.Framework
 			return result;
 		}
 
+		internal static bool OpenURL(string url)
+		{
+			return SDL.SDL_OpenURL(url) == 0;
+		}
+		internal static bool HasClipboardText()
+		{
+			return SDL.SDL_HasClipboardText() == SDL.SDL_bool.SDL_TRUE;
+		}
+
+		internal static string GetClipboardText()
+		{
+			return SDL.SDL_GetClipboardText();
+		}
+		internal static bool SetClipboardText(string text)
+		{
+			return SDL.SDL_SetClipboardText(text) == 0;
+		}
+
+		internal static void SetWindowBordered(IntPtr window, bool bordered)
+		{
+			SDL.SDL_SetWindowBordered(window, bordered ? SDL.SDL_bool.SDL_TRUE : SDL.SDL_bool.SDL_FALSE);
+		}
+
+		internal static void SetWindowPosition(IntPtr window, int x, int y)
+		{
+			SDL.SDL_SetWindowPosition(window, x, y);
+		}
+
+		internal static ulong GetWindowFlags(IntPtr window)
+		{
+			return (ulong) SDL.SDL_GetWindowFlags(window);
+		}
+
+
+		internal static void RaiseWindow(IntPtr window)
+		{
+			SDL.SDL_RaiseWindow(window);
+		}
+		internal static void MaximizeWindow(IntPtr window)
+		{
+			SDL.SDL_MaximizeWindow(window);
+		}
+		internal static void RestoreWindow(IntPtr window)
+		{
+			SDL.SDL_RestoreWindow(window);
+		}
+
+		internal static void SetWindowSize(IntPtr window, int w, int h)
+		{
+			SDL.SDL_SetWindowSize(window, w, h);
+		}
+		internal static void GetWindowPosition(IntPtr window, out int x, out int y)
+		{
+			SDL.SDL_GetWindowPosition(window, out x, out y);
+		}
+		internal static int SetWindowInputFocus(IntPtr window)
+		{
+			return SDL.SDL_SetWindowInputFocus(window);
+		}
+		internal static string GameControllerNameForIndex(int deviceIndex)
+		{
+			return SDL.SDL_GameControllerNameForIndex(deviceIndex);
+		}
+
+		internal static int GameControllerTypeForIndex(int deviceIndex)
+		{
+			return (int)SDL.SDL_GameControllerTypeForIndex(deviceIndex);
+		}
 		#endregion
 
 		#region Touch Methods
