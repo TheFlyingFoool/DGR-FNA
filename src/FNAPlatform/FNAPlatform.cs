@@ -149,6 +149,7 @@ namespace Microsoft.Xna.Framework
 				SetGamePadVibration =		SDL3_FNAPlatform.SetGamePadVibration;
 				SetGamePadTriggerVibration =	SDL3_FNAPlatform.SetGamePadTriggerVibration;
 				GetGamePadGUID =		SDL3_FNAPlatform.GetGamePadGUID;
+				GetGameControllerName = SDL3_FNAPlatform.GetGameControllerName;
 				SetGamePadLightBar =		SDL3_FNAPlatform.SetGamePadLightBar;
 				GetGamePadGyro = 		SDL3_FNAPlatform.GetGamePadGyro;
 				GetGamePadAccelerometer =	SDL3_FNAPlatform.GetGamePadAccelerometer;
@@ -205,6 +206,7 @@ namespace Microsoft.Xna.Framework
 				SetGamePadVibration =		SDL2_FNAPlatform.SetGamePadVibration;
 				SetGamePadTriggerVibration =	SDL2_FNAPlatform.SetGamePadTriggerVibration;
 				GetGamePadGUID =		SDL2_FNAPlatform.GetGamePadGUID;
+				GetGameControllerName = SDL2_FNAPlatform.GetGameControllerName;
 				SetGamePadLightBar =		SDL2_FNAPlatform.SetGamePadLightBar;
 				GetGamePadGyro = 		SDL2_FNAPlatform.GetGamePadGyro;
 				GetGamePadAccelerometer =	SDL2_FNAPlatform.GetGamePadAccelerometer;
