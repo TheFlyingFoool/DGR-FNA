@@ -212,7 +212,10 @@ namespace Microsoft.Xna.Framework.Input
 
 		internal static void OnDeviceChange(int dev, bool removed, string info)
 		{
-			GamePad.DeviceChangeEvent?.Invoke(dev, removed, info);
+			if (GamePad.DeviceChangeEvent != null)
+			{
+				GamePad.DeviceChangeEvent.Invoke(dev, removed, info);
+			}
 		}
 
 		#endregion
