@@ -1941,7 +1941,15 @@ namespace Microsoft.Xna.Framework
 		{
 			return INTERNAL_guids[index];
 		}
-
+		public static string GetGameControllerName(int index)
+		{
+			IntPtr device = INTERNAL_devices[index];
+			if (device == IntPtr.Zero)
+			{
+				return "";
+			}
+			return SDL.SDL_GetGamepadName(INTERNAL_devices[index]);
+		}
 		public static void SetGamePadLightBar(int index, Color color)
 		{
 			IntPtr device = INTERNAL_devices[index];
@@ -2183,12 +2191,13 @@ namespace Microsoft.Xna.Framework
 			{
 				deviceInfo = "Mapping: " + mapping;
 			}
-			FNALoggerEXT.LogInfo(
-				"Controller " + which.ToString() + ": " +
+			string info = "Added Controller " + which.ToString() + ": " +
 				SDL.SDL_GetGamepadName(INTERNAL_devices[which]) + ", " +
 				"GUID: " + INTERNAL_guids[which] + ", " +
-				deviceInfo
-			);
+				deviceInfo;
+			GamePad.OnDeviceChange((int)dev, false, info);
+			FNALoggerEXT.LogInfo(info);
+
 		}
 
 		private static void INTERNAL_RemoveInstance(uint dev)
@@ -2207,7 +2216,21 @@ namespace Microsoft.Xna.Framework
 
 			// A lot of errors can happen here, but honestly, they can be ignored...
 			SDL.SDL_ClearError();
-
+			string deviceInfo;
+			string mapping = SDL.SDL_GetGamepadMapping(INTERNAL_devices[output]);
+			if (string.IsNullOrEmpty(mapping))
+			{
+				deviceInfo = "Mapping not found";
+			}
+			else
+			{
+				deviceInfo = "Mapping: " + mapping;
+			}
+			string info = "Removed Controller " + output.ToString() + ": " +
+				SDL.SDL_GetGamepadName(INTERNAL_devices[output]) + ", " +
+				"GUID: " + INTERNAL_guids[output] + ", " +
+				deviceInfo;
+			GamePad.OnDeviceChange((int)dev, true, info);
 			FNALoggerEXT.LogInfo("Removed device, player: " + output.ToString());
 		}
 
